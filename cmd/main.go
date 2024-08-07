@@ -15,7 +15,7 @@ import (
 func main() {
 	router := handler.SetUpRouter()
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	router.Run("localhost:8080")
+	router.Run(":8080")
 
 	docs.SwaggerInfo.BasePath = "/"
 }
