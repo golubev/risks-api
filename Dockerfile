@@ -6,4 +6,6 @@ COPY ./ ./
 
 RUN go get -d ./...
 
-CMD ["go", "run", "./cmd/"]
+RUN go build -o risks-api ./cmd/main.go
+
+CMD ["./risks-api"]
