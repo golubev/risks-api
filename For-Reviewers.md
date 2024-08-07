@@ -12,6 +12,7 @@ I also decided to add Swagger UI (OpenAPI) for the next reasons:
 - OpenAPI is the best practice and a vital part of the developers' tools, so the effort to integrate it will never be vain.
 
 There are still some issues that might be done better:
+- In-memory storage implementation is not thread safe and can have race conditions. So it should be protected with a mutex.
 - Validating the `State` enumeration could be implemented via a custom validator.
 - It would be great to add a pagination for the `GET /v1/risks` endpoint.
 - The project is running in debug mode. To run in production it should be also configured using the `GIN_MODE` environment variable.
