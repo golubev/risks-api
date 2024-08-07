@@ -1,0 +1,141 @@
+definitions:
+  main.HTTPError:
+    properties:
+      message:
+        example: Internal server error
+        type: string
+      statusCode:
+        example: 500
+        type: integer
+    type: object
+  main.Risk:
+    properties:
+      description:
+        example: python-jose through 3.3.0 has algorithm confusion with OpenSSH ECDSA
+          keys and other key formats.
+        type: string
+        x-order: "3"
+      id:
+        example: add736b0-516b-401c-a4ee-bfa00812bb52
+        type: string
+        x-order: "0"
+      state:
+        allOf:
+        - $ref: '#/definitions/main.State'
+        example: investigating
+        x-order: "1"
+      title:
+        example: CVE-2022-29217
+        type: string
+        x-order: "2"
+    required:
+    - state
+    type: object
+  main.RiskBody:
+    properties:
+      description:
+        example: python-jose through 3.3.0 has algorithm confusion with OpenSSH ECDSA
+          keys and other key formats.
+        type: string
+        x-order: "3"
+      state:
+        allOf:
+        - $ref: '#/definitions/main.State'
+        example: investigating
+        x-order: "1"
+      title:
+        example: CVE-2022-29217
+        type: string
+        x-order: "2"
+    required:
+    - state
+    type: object
+  main.State:
+    enum:
+    - open
+    - closed
+    - accepted
+    - investigating
+    type: string
+    x-enum-varnames:
+    - Open
+    - Closed
+    - Accepted
+    - Investigating
+info:
+  contact: {}
+paths:
+  /v1/risks:
+    get:
+      consumes:
+      - application/json
+      description: get Risks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.Risk'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+      summary: Get Risks
+    post:
+      consumes:
+      - application/json
+      description: post Risk
+      parameters:
+      - description: risk data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/main.RiskBody'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/main.Risk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+      summary: Post Risk
+  /v1/risks/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get Risk by ID
+      parameters:
+      - description: Risk ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Risk'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.HTTPError'
+      summary: Get Risk By ID
+swagger: "2.0"

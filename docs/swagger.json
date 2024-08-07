@@ -1,0 +1,208 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/v1/risks": {
+            "get": {
+                "description": "get Risks",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Risks",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.Risk"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.HTTPError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "post Risk",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Post Risk",
+                "parameters": [
+                    {
+                        "description": "risk data",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.RiskBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/main.Risk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/risks/{id}": {
+            "get": {
+                "description": "get Risk by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Risk By ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Risk ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.Risk"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.HTTPError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.HTTPError": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Internal server error"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "example": 500
+                }
+            }
+        },
+        "main.Risk": {
+            "type": "object",
+            "required": [
+                "state"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "x-order": "0",
+                    "example": "add736b0-516b-401c-a4ee-bfa00812bb52"
+                },
+                "state": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/main.State"
+                        }
+                    ],
+                    "x-order": "1",
+                    "example": "investigating"
+                },
+                "title": {
+                    "type": "string",
+                    "x-order": "2",
+                    "example": "CVE-2022-29217"
+                },
+                "description": {
+                    "type": "string",
+                    "x-order": "3",
+                    "example": "python-jose through 3.3.0 has algorithm confusion with OpenSSH ECDSA keys and other key formats."
+                }
+            }
+        },
+        "main.RiskBody": {
+            "type": "object",
+            "required": [
+                "state"
+            ],
+            "properties": {
+                "state": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/main.State"
+                        }
+                    ],
+                    "x-order": "1",
+                    "example": "investigating"
+                },
+                "title": {
+                    "type": "string",
+                    "x-order": "2",
+                    "example": "CVE-2022-29217"
+                },
+                "description": {
+                    "type": "string",
+                    "x-order": "3",
+                    "example": "python-jose through 3.3.0 has algorithm confusion with OpenSSH ECDSA keys and other key formats."
+                }
+            }
+        },
+        "main.State": {
+            "type": "string",
+            "enum": [
+                "open",
+                "closed",
+                "accepted",
+                "investigating"
+            ],
+            "x-enum-varnames": [
+                "Open",
+                "Closed",
+                "Accepted",
+                "Investigating"
+            ]
+        }
+    }
+}
