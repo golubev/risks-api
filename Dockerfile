@@ -2,7 +2,7 @@ FROM golang:1.22-alpine
 
 ENV GOPATH=/
 
-COPY . .
+COPY ./ ./
 
 RUN go get -d ./...
 

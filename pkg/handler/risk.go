@@ -38,7 +38,7 @@ func getRiskByID(c *gin.Context) {
 			return
 		}
 	}
-	c.AbortWithStatusJSON(http.StatusBadRequest, HTTPError{
+	c.AbortWithStatusJSON(http.StatusNotFound, HTTPError{
 		StatusCode: http.StatusNotFound,
 		Message:    "Risk Not Found",
 	})
