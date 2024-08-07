@@ -31,35 +31,35 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/main.Risk"
+                                "$ref": "#/definitions/risk.Risk"
                             }
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     }
                 }
             },
             "post": {
-                "description": "post Risk",
+                "description": "Create Risk",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Post Risk",
+                "summary": "Create Risk",
                 "parameters": [
                     {
-                        "description": "risk data",
+                        "description": "Risk Data",
                         "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.RiskBody"
+                            "$ref": "#/definitions/risk.RiskBody"
                         }
                     }
                 ],
@@ -67,19 +67,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/main.Risk"
+                            "$ref": "#/definitions/risk.Risk"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     }
                 }
@@ -87,7 +87,7 @@ const docTemplate = `{
         },
         "/v1/risks/{id}": {
             "get": {
-                "description": "get Risk by ID",
+                "description": "Get Risk By ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -108,19 +108,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/main.Risk"
+                            "$ref": "#/definitions/risk.Risk"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     }
                 }
@@ -128,7 +128,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "main.HTTPError": {
+        "handler.HTTPError": {
             "type": "object",
             "properties": {
                 "message": {
@@ -141,7 +141,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.Risk": {
+        "risk.Risk": {
             "type": "object",
             "required": [
                 "state"
@@ -155,7 +155,7 @@ const docTemplate = `{
                 "state": {
                     "allOf": [
                         {
-                            "$ref": "#/definitions/main.State"
+                            "$ref": "#/definitions/risk.State"
                         }
                     ],
                     "x-order": "1",
@@ -173,7 +173,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.RiskBody": {
+        "risk.RiskBody": {
             "type": "object",
             "required": [
                 "state"
@@ -182,7 +182,7 @@ const docTemplate = `{
                 "state": {
                     "allOf": [
                         {
-                            "$ref": "#/definitions/main.State"
+                            "$ref": "#/definitions/risk.State"
                         }
                     ],
                     "x-order": "1",
@@ -200,7 +200,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.State": {
+        "risk.State": {
             "type": "string",
             "enum": [
                 "open",
@@ -220,12 +220,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0",
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Risks API",
+	Description:      "Risks REST API",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -1,7 +1,10 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "Risks REST API",
+        "title": "Risks API",
+        "contact": {},
+        "version": "1.0"
     },
     "paths": {
         "/v1/risks": {
@@ -20,35 +23,35 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/main.Risk"
+                                "$ref": "#/definitions/risk.Risk"
                             }
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     }
                 }
             },
             "post": {
-                "description": "post Risk",
+                "description": "Create Risk",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Post Risk",
+                "summary": "Create Risk",
                 "parameters": [
                     {
-                        "description": "risk data",
+                        "description": "Risk Data",
                         "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.RiskBody"
+                            "$ref": "#/definitions/risk.RiskBody"
                         }
                     }
                 ],
@@ -56,19 +59,19 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/main.Risk"
+                            "$ref": "#/definitions/risk.Risk"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     }
                 }
@@ -76,7 +79,7 @@
         },
         "/v1/risks/{id}": {
             "get": {
-                "description": "get Risk by ID",
+                "description": "Get Risk By ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -97,19 +100,19 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/main.Risk"
+                            "$ref": "#/definitions/risk.Risk"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/main.HTTPError"
+                            "$ref": "#/definitions/handler.HTTPError"
                         }
                     }
                 }
@@ -117,7 +120,7 @@
         }
     },
     "definitions": {
-        "main.HTTPError": {
+        "handler.HTTPError": {
             "type": "object",
             "properties": {
                 "message": {
@@ -130,7 +133,7 @@
                 }
             }
         },
-        "main.Risk": {
+        "risk.Risk": {
             "type": "object",
             "required": [
                 "state"
@@ -144,7 +147,7 @@
                 "state": {
                     "allOf": [
                         {
-                            "$ref": "#/definitions/main.State"
+                            "$ref": "#/definitions/risk.State"
                         }
                     ],
                     "x-order": "1",
@@ -162,7 +165,7 @@
                 }
             }
         },
-        "main.RiskBody": {
+        "risk.RiskBody": {
             "type": "object",
             "required": [
                 "state"
@@ -171,7 +174,7 @@
                 "state": {
                     "allOf": [
                         {
-                            "$ref": "#/definitions/main.State"
+                            "$ref": "#/definitions/risk.State"
                         }
                     ],
                     "x-order": "1",
@@ -189,7 +192,7 @@
                 }
             }
         },
-        "main.State": {
+        "risk.State": {
             "type": "string",
             "enum": [
                 "open",

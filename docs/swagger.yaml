@@ -1,5 +1,5 @@
 definitions:
-  main.HTTPError:
+  handler.HTTPError:
     properties:
       message:
         example: Internal server error
@@ -8,7 +8,7 @@ definitions:
         example: 500
         type: integer
     type: object
-  main.Risk:
+  risk.Risk:
     properties:
       description:
         example: python-jose through 3.3.0 has algorithm confusion with OpenSSH ECDSA
@@ -21,7 +21,7 @@ definitions:
         x-order: "0"
       state:
         allOf:
-        - $ref: '#/definitions/main.State'
+        - $ref: '#/definitions/risk.State'
         example: investigating
         x-order: "1"
       title:
@@ -31,7 +31,7 @@ definitions:
     required:
     - state
     type: object
-  main.RiskBody:
+  risk.RiskBody:
     properties:
       description:
         example: python-jose through 3.3.0 has algorithm confusion with OpenSSH ECDSA
@@ -40,7 +40,7 @@ definitions:
         x-order: "3"
       state:
         allOf:
-        - $ref: '#/definitions/main.State'
+        - $ref: '#/definitions/risk.State'
         example: investigating
         x-order: "1"
       title:
@@ -50,7 +50,7 @@ definitions:
     required:
     - state
     type: object
-  main.State:
+  risk.State:
     enum:
     - open
     - closed
@@ -64,6 +64,9 @@ definitions:
     - Investigating
 info:
   contact: {}
+  description: Risks REST API
+  title: Risks API
+  version: "1.0"
 paths:
   /v1/risks:
     get:
@@ -77,45 +80,45 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/main.Risk'
+              $ref: '#/definitions/risk.Risk'
             type: array
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/main.HTTPError'
+            $ref: '#/definitions/handler.HTTPError'
       summary: Get Risks
     post:
       consumes:
       - application/json
-      description: post Risk
+      description: Create Risk
       parameters:
-      - description: risk data
+      - description: Risk Data
         in: body
         name: input
         required: true
         schema:
-          $ref: '#/definitions/main.RiskBody'
+          $ref: '#/definitions/risk.RiskBody'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/main.Risk'
+            $ref: '#/definitions/risk.Risk'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/main.HTTPError'
+            $ref: '#/definitions/handler.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/main.HTTPError'
-      summary: Post Risk
+            $ref: '#/definitions/handler.HTTPError'
+      summary: Create Risk
   /v1/risks/{id}:
     get:
       consumes:
       - application/json
-      description: get Risk by ID
+      description: Get Risk By ID
       parameters:
       - description: Risk ID
         in: path
@@ -128,14 +131,14 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.Risk'
+            $ref: '#/definitions/risk.Risk'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/main.HTTPError'
+            $ref: '#/definitions/handler.HTTPError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/main.HTTPError'
+            $ref: '#/definitions/handler.HTTPError'
       summary: Get Risk By ID
 swagger: "2.0"
